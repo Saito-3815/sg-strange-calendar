@@ -3,7 +3,7 @@ require 'date'
 YEAR_WIDTH = 4
 WDAYS = %w[Su Mo Tu We Th Fr Sa].cycle.take(37) # cycleで無限に繰り返し、take(37)で最初の37個取得
 
-class SgStrangeCalendarLv2
+class SgStrangeCalendarLv3
   def initialize(year, today = nil)
     # write your code here
     @year = year
@@ -34,11 +34,13 @@ class SgStrangeCalendarLv2
     end
     wdays = [@year, *WDAYS]
 
-    [wdays, *dates_by_month]
+    # verticalがtrueで縦向きにする
+    # zipメソッドで各配列の同じインデックスの要素をまとめて配列にする
+    vertical ? wdays.zip(*dates_by_month) : [wdays, *dates_by_month]
   end
 
   def build_body_rows(bodey_table, vertical)
-    day_width = 3
+    day_width = vertical ? 4 : 3 # 縦向きの場合は4桁、横向きの場合は3桁
     bodey_table.map do |first_col, *dates| # first_colは月名
       build_body_row(first_col, dates, day_width)
     end
@@ -52,7 +54,7 @@ class SgStrangeCalendarLv2
       "#{bracket}#{date&.day}".rjust(day_width)
     end
     row = [first_col.ljust(YEAR_WIDTH), *days].join
-    insert_right_bracket(row)
+    insert_right_bracket(row).rstrip # rstripで縦向きにした場合に発生する右端の空白を削除
   end
 
   def add_left_bracket?(date)
@@ -66,6 +68,6 @@ class SgStrangeCalendarLv2
   end
 end
 
-today = Date.new(2024, 12, 11)
-calendar = SgStrangeCalendarLv2.new(2024, today)
-puts calendar.generate
+today = Date.new(2024, 12, 9)
+calendar = SgStrangeCalendarLv3.new(2024, today)
+puts calendar.generate(vertical: true)
