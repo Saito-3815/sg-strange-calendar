@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'date'
 require_relative '../lib/sg_strange_calendar'
+require_relative '../lib/sg_strange_calendar_lv2'
 
 class SgStrangeCalendarTest < Minitest::Test
   def test_level_1_for_2024
@@ -39,12 +40,12 @@ class SgStrangeCalendarTest < Minitest::Test
       Nov                     1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30
       Dec      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
     TXT
-    calendar = SgStrangeCalendar.new(2025)
+    calendar = SgStrangeCalendarLv2.new(2025)
     assert_equal expected, calendar.generate
   end
 
   def test_level_2_for_2024_01_01
-    skip "レベル2にチャレンジする人はこの行を削除してください"
+    # skip "レベル2にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo
       Jan     [1] 2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
@@ -61,12 +62,12 @@ class SgStrangeCalendarTest < Minitest::Test
       Dec   1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
     TXT
     today = Date.new(2024, 1, 1)
-    calendar = SgStrangeCalendar.new(2024, today)
+    calendar = SgStrangeCalendarLv2.new(2024, today)
     assert_equal expected, calendar.generate
   end
 
   def test_level_2_for_2024_12_09
-    skip "レベル2にチャレンジする人はこの行を削除してください"
+    # skip "レベル2にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2024 Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo
       Jan      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
@@ -83,12 +84,12 @@ class SgStrangeCalendarTest < Minitest::Test
       Dec   1  2  3  4  5  6  7  8 [9]10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
     TXT
     today = Date.new(2024, 12, 9)
-    calendar = SgStrangeCalendar.new(2024, today)
+    calendar = SgStrangeCalendarLv2.new(2024, today)
     assert_equal expected, calendar.generate
   end
 
   def test_level_2_for_2025_03_31
-    skip "レベル2にチャレンジする人はこの行を削除してください"
+    # skip "レベル2にチャレンジする人はこの行を削除してください"
     expected = <<~TXT.chomp
       2025 Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo Tu We Th Fr Sa Su Mo
       Jan            1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
@@ -105,19 +106,19 @@ class SgStrangeCalendarTest < Minitest::Test
       Dec      1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31
     TXT
     today = Date.new(2025, 3, 31)
-    calendar = SgStrangeCalendar.new(2025, today)
+    calendar = SgStrangeCalendarLv2.new(2025, today)
     assert_equal expected, calendar.generate
   end
 
   def test_level_2_all
-    skip "レベル2にチャレンジする人はこの行を削除してください"
+    # skip "レベル2にチャレンジする人はこの行を削除してください"
     file_path = File.expand_path('level2.txt', File.dirname(__FILE__))
     calendars = File.read(file_path).lines.each_slice(13).map(&:join).map(&:chomp)
     from_date = Date.new(2025, 1, 1)
     to_date = Date.new(2025, 12, 31)
     dates = [*from_date..to_date]
     dates.zip(calendars) do |date, expected|
-      actual = SgStrangeCalendar.new(2025, date).generate
+      actual = SgStrangeCalendarLv2.new(2025, date).generate
       assert_equal expected, actual
     end
   end
